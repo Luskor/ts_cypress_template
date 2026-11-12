@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "PRODUCTS_UNAVAILABLE",
+    "message": "Products are temporarily unavailable."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "product-001",
+  "name": "Example Product",
+  "description": "A deterministic product used by fixture examples.",
+  "price": 19.99,
+  "currency": "USD",
+  "available": true
+}

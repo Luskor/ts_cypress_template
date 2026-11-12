@@ -1,0 +1,51 @@
+{
+  "name": "qe-cypress-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky",
+    "report:clean": "node --loader ts-node/esm scripts/report.ts clean",
+    "report:merge": "node --loader ts-node/esm scripts/report.ts merge",
+    "report:generate": "node --loader ts-node/esm scripts/report.ts generate",
+    "cy:open": "cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS cypress open",
+    "cy:run": "export REPORT_RUN_ID=${REPORT_RUN_ID:-$(date +%Y%m%d-%H%M%S)} && export REPORT_DIR=reports/runs/$REPORT_RUN_ID && npm run report:clean && cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS REPORT_DIR=$REPORT_DIR node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec \"${SPEC:-cypress/e2e/**/*.cy.ts}\" --record false --browser chrome",
+    "cy:debug": "cross-env-shell DEBUG=cypress:* CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec \"${SPEC:-cypress/e2e/**/*.cy.ts}\" --record false --browser chrome 2>&1 | tee console_output.txt",
+    "cy:record": "cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec \"${SPEC:-cypress/e2e/**/*.cy.ts}\" --record --browser chrome",
+    "test:smoke": "cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec 'cypress/e2e/smoke/**/*.cy.ts' --record --browser chrome --group smoke --parallel",
+    "test:navigation": "cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec 'cypress/e2e/navigation/**/*.cy.ts' --record --browser chrome --group navigation --parallel",
+    "test:spec": "cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec \"$SPEC\" --record --browser chrome --group ${GROUP:-spec} --parallel",
+    "test:all": "export REPORT_RUN_ID=${REPORT_RUN_ID:-$(date +%Y%m%d-%H%M%S)} && export REPORT_DIR=reports/runs/$REPORT_RUN_ID && npm run report:clean && cross-env-shell CYPRESS_TEST_ENV=$ENV CYPRESS_TARGET=$TARGET CYPRESS_grepTags=$TAGS REPORT_DIR=$REPORT_DIR node --experimental-specifier-resolution=node --loader ts-node/esm scripts/run-cypress.ts run --spec \"cypress/e2e/**/*.cy.ts\" --record --browser chrome --group all --parallel",
+    "validate-setup": "node --loader ts-node/esm scripts/validate-setup.ts"
+  },
+  "dependencies": {
+    "@cypress/grep": "4.1.0",
+    "cypress-iframe": "1.0.1",
+    "cypress-real-events": "1.14.0",
+    "dotenv": "16.4.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.32.0",
+    "@types/node": "24.2.1",
+    "@typescript-eslint/parser": "8.39.0",
+    "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0",
+    "cypress": "14.5.3",
+    "cypress-mochawesome-reporter": "3.8.4",
+    "eslint": "9.32.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-cypress": "5.1.0",
+    "eslint-plugin-mocha": "11.1.0",
+    "eslint-plugin-prettier": "5.5.4",
+    "husky": "9.1.7",
+    "mochawesome-merge": "4.4.1",
+    "mochawesome-report-generator": "^6.3.2",
+    "prettier": "3.6.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.39.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "id": "product-001",
+      "name": "Example Product",
+      "price": 19.99,
+      "currency": "USD",
+      "available": true
+    }
+  ],
+  "meta": {
+    "total": 1
+  }
+}

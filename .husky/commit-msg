@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+input_file="$1"
+commit_message=$(head -n1 "$input_file")
+local_branch=$(git rev-parse --abbrev-ref HEAD)
+branch_ticket=$(printf '%s\n' "$local_branch" | grep -oE '^(PROJECT-[0-9]+|nojira)' || true)
+
+if [ -z "$branch_ticket" ]; then
+  echo "The current branch must begin with PROJECT-123 or nojira."
+  exit 1
+fi
+
+commit_message_regex="^(Merge\\sbranch|($branch_ticket|nojira):[[:space:]A-Za-z0-9,._-]+$)"
+
+if ! printf '%s\n' "$commit_message" | grep -Eq "$commit_message_regex"; then
+  echo "There is something wrong with your commit message."
+  echo "Commit messages must match: $branch_ticket: description"
+  echo "Use a branch beginning with PROJECT-123 or use nojira."
+  exit 1
+fi
